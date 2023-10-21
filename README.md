@@ -1,11 +1,23 @@
+## **Set-up**
+
+> ****INSTALL*** - use `pip install -r .\requirements.txt` to install required packages (a python version of 3.11 is required)*
+
+> ****UPDATE*** - use `pip list --format=freeze > .\requirements.txt` to update required packages if more are added*
+
+> ****MIGRATE*** - use `python manage.run migrate` to migrate all changes*
+
+> ****RUN*** - use `python manage.run runserver` to turn on the application*
+
 ### Problem
 
-*What problem does your project solve? How does it fit into the theme "***An AI microsimulation***"?*
+The implementation of a virtual assistant application.
 
 ### Solution
 
-*How did you resolve this issue? What technologies did you use? What was your biggest technical challenge and how does your solution solve it?*
+Through the help of OpenAI and a Django backend we managed to create a web API that allows for the interaction with the virtual assistant
 
-### Team and comments
+### Team
 
-*Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!*
++ Popa Bogdan-Gabriel
++ Cozma-Ivan Carol
++ Pilescu Adrian Mihai
