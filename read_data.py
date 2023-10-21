@@ -1,4 +1,5 @@
 import json
+import PyPDF2
 
 
 def get_stand_data():
@@ -14,18 +15,8 @@ def get_stand_data():
         shops_list.append(temp)
         id_list.append(row_data[0])
 
-    print(len(id_list))
-    print(len(set(id_list)))
-
     json_file = open('RawFiles/fdv_stands20230920.geojson', "r")
     stand_list = json.loads(json_file.read())['features']
-
-    index_list = [feature['properties']['numero'] for feature in stand_list]
-    for index in id_list:
-        try:
-            index_list.index(index)
-        except ValueError:
-            print(index)
 
     for stand in stand_list:
         try:
