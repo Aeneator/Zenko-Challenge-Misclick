@@ -4,7 +4,7 @@ API_KEY = open("API_KEY.txt", 'r').read()
 openai.api_key = API_KEY
 
 chat_log = []
-
+# TIk tok
 while True:
     user_message = input()
     if user_message.lower() == "quit":
