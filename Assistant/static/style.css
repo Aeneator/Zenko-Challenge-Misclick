@@ -61,7 +61,8 @@ body
 .chatbot .chatbox{
   height: 400px;
   overflow-y: auto;
-  padding: 15px 20px 70px
+  padding: 15px 20px 70px;
+  margin-bottom: 16%;
 }
 
 .chatbot header{
@@ -87,6 +88,12 @@ body
   line-height: 32px;
   border-radius: 4px;
   margin: auto 10px 0px 0;
+}
+
+.chatbox .incoming span img{
+  width: 26px;
+  height: 26px;
+  padding-top: 3px;
 }
 
 .chatbox .outgoing{

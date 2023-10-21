@@ -7,14 +7,7 @@ let userMessage;
 function handleKeyPress(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-
-        const inputValue = document.querySelector(".chat-input textarea").value;
-        if (inputValue != null){
-            updatePage(inputValue);
-            document.querySelector(".chat-input textarea").readOnly = true;
-        }
-        handleChat();
-        document.querySelector(".chat-input textarea").value = "";
+    handleChat();
     }
 }
 
@@ -35,7 +28,7 @@ function updatePage(inputValue) {
 const createChatLi = (message, className) => {
   const chatLi = document.createElement("li");
   chatLi.classList.add("chat", className);
-  let chatContent = className === "outgoing" ? `<p>${message}</p>` : `<span class="material-symbols-outlined">smart_toy</span><p>${message}</p>`;
+  let chatContent = className === "outgoing" ? `<p>${message}</p>` : `<span class="material-symbols-outlined"><img src="${document.getElementsByClassName("bot-icon")[0].getAttribute("src")}"></span><p>${message}</p>`;
   chatLi.innerHTML = chatContent;
   return chatLi;
 }
@@ -54,8 +47,9 @@ chatInput.addEventListener("input", handleChatInput);
 const handleChat = () => {
   userMessage = chatInput.value.trim();
   if(!userMessage) return;
-
-  chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+    updatePage(userMessage);
+    document.querySelector(".chat-input textarea").readOnly = true;
+    chatbox.appendChild(createChatLi(userMessage, "outgoing"));
 
   // Simulate the thinking dots animation
   const thinkingMessage = createChatLi(`<span class="thinking-dots"></span>`, "incoming");
@@ -69,6 +63,8 @@ const handleChat = () => {
     dotsSpan.setAttribute("color","black");
     dotsSpan.style.animation = "thinking-dots 1.5s infinite"; // Restart the animation
   }, 600); // Adjust the timing as needed
+        document.querySelector(".chat-input textarea").value = "";
+
 }
 
 sendChatBtn.addEventListener("click", handleChat);
