@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            const inputValue = document.getElementById("myInput").value;
+            if (inputValue != null){
+                updatePage(inputValue);
+                document.getElementById("myInput").readOnly = true;
+                const newItem = document.createElement('li');
+                newItem.textContent = inputValue;
+                document.getElementById("my-list").appendChild(newItem);
+            }
+            document.getElementById("myInput").value = "";
+        }
+    }
+
+    function updatePage(inputValue) {
+        $.ajax({
+            url: "/update-data/",  // Replace with the URL of your update_data view
+            type: "GET",
+            dataType: "json",
+            data: { text: inputValue },
+            success: function(data) {
+                const newItem = document.createElement('li');
+                newItem.textContent = data.message;
+                document.getElementById("my-list").appendChild(newItem);
+
+                document.getElementById("myInput").readOnly = false;
+            }
+        });
+    }
+    // Call the updatePage function when needed, e.g., via a button click
+    </script>
+</head>
+<body>
+    <div id="update-div">
+        <ul id="my-list">
+        </ul>
+    </div>
+    <input type="text" id="myInput" onkeyup="handleKeyPress(event)">
+</body>
+</html>
