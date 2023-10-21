@@ -1,12 +1,12 @@
 ## **Set-up**
 
-> ****INSTALL*** - use `pip install -r .\requirements.txt` to install required packages (a python version of 3.11 is required)*
+****INSTALL*** - use `pip install -r .\requirements.txt` to install required packages (a python version of 3.11 is required)*
 
-> ****UPDATE*** - use `pip list --format=freeze > .\requirements.txt` to update required packages if more are added*
+****UPDATE*** - use `pip list --format=freeze > .\requirements.txt` to update required packages if more are added*
 
-> ****MIGRATE*** - use `python manage.run migrate` to migrate all changes*
+****MIGRATE*** - use `python manage.run migrate` to migrate all changes*
 
-> ****RUN*** - use `python manage.run runserver` to turn on the application*
+****RUN*** - use `python manage.run runserver` to turn on the application*
 
 ### Problem
 
