@@ -4,6 +4,34 @@ const chatbox = document.querySelector(".chatbox")
 
 let userMessage;
 
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+
+        const inputValue = document.querySelector(".chat-input textarea").value;
+        if (inputValue != null){
+            updatePage(inputValue);
+            document.querySelector(".chat-input textarea").readOnly = true;
+        }
+        handleChat();
+        document.querySelector(".chat-input textarea").value = "";
+    }
+}
+
+function updatePage(inputValue) {
+    $.ajax({
+        url: "/update-data/",  // Replace with the URL of your update_data view
+        type: "GET",
+        dataType: "json",
+        data: { text: inputValue },
+        success: function(data) {
+            const ulItem = document.querySelector(".chatbox");
+            ulItem.lastElementChild.lastElementChild.textContent = data.message;
+            document.querySelector(".chat-input textarea").readOnly = false;
+        }
+    });
+}
+
 const createChatLi = (message, className) => {
   const chatLi = document.createElement("li");
   chatLi.classList.add("chat", className);

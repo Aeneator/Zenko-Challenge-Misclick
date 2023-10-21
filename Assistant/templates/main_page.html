@@ -1,46 +1,13 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <title>Chatbot</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <meta name="'viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100"/>
-    <script src="script.js" defer></script>
+    <script src="{% static 'script.js' %}" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    function handleKeyPress(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-
-            const inputValue = document.getElementById("myInput").value;
-            if (inputValue != null){
-                updatePage(inputValue);
-                document.getElementById("myInput").readOnly = true;
-                const newItem = document.createElement('li');
-                newItem.textContent = inputValue;
-                document.getElementById("my-list").appendChild(newItem);
-            }
-            document.getElementById("myInput").value = "";
-        }
-    }
-
-    function updatePage(inputValue) {
-        $.ajax({
-            url: "/update-data/",  // Replace with the URL of your update_data view
-            type: "GET",
-            dataType: "json",
-            data: { text: inputValue },
-            success: function(data) {
-                const newItem = document.createElement('li');
-                newItem.textContent = data.message;
-                document.getElementById("my-list").appendChild(newItem);
-
-                document.getElementById("myInput").readOnly = false;
-            }
-        });
-    }
-    // Call the updatePage function when needed, e.g., via a button click
-    </script>
 </head>
 <body>
      <div class = "chatbot">
@@ -54,7 +21,7 @@
           </li>
         </ul>
         <div class="chat-input">
-          <textarea placeholder="Enter a message..."></textarea>
+          <textarea placeholder="Enter a message..." onkeyup="handleKeyPress(event)"></textarea>
           <span class="material-symbols-outlined">send</span>
         </div>
      </div>
