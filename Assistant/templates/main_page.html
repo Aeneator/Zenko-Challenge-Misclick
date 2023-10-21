@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="'viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100"/>
+    <script src="script.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     function handleKeyPress(event) {
@@ -38,10 +43,20 @@
     </script>
 </head>
 <body>
-    <div id="update-div">
-        <ul id="my-list">
+     <div class = "chatbot">
+        <header>
+          <h1>Chatbot</h1>
+        </header>
+        <ul class="chatbox">
+          <li class="chat incoming">
+            <span class="material-symbols-outlined">smart_toy</span>
+            <p>Hi there!<br>How can I help you today?</p>
+          </li>
         </ul>
-    </div>
-    <input type="text" id="myInput" onkeyup="handleKeyPress(event)">
+        <div class="chat-input">
+          <textarea placeholder="Enter a message..."></textarea>
+          <span class="material-symbols-outlined">send</span>
+        </div>
+     </div>
 </body>
 </html>
