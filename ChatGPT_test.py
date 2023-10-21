@@ -3,11 +3,25 @@ import openai
 API_KEY = open("API_KEY.txt", 'r').read()
 openai.api_key = API_KEY
 
-response = openai.ChatCompletion.create(
+output = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
-    messages=[
-        {"role": "assistant", "content": "What is the general opinion on Katy Perry?"}
-    ]
+    messages=[{"role": "user",
+               "content": "What is google"}]
 )
+print(output)
 
-print(response)
+# chat_log = []
+#
+# while True:
+#     user_message = input()
+#     if user_message.lower() == "quit":
+#         break
+#     else:
+#         chat_log.append({"role": "user", "content": user_message})
+#         response = openai.ChatCompletion.create(
+#             model="gpt-3.5-turbo",
+#             messages=chat_log
+#         )
+#         assistant_response = response['choices'][0]['message']['content']
+#         print("ChatGPT:", assistant_response.strip("\n").strip())
+#         chat_log.append({"role": "assistant", "content": assistant_response.strip("\n").strip()})
