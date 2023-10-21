@@ -8,6 +8,8 @@
 
 ****RUN*** - use `python manage.run runserver` to turn on the application*
 
+****API KEY*** - create a text file named "API_KEY.txt" containing the OpenAI key in the parent directory*
+
 ### Problem
 
 The implementation of a virtual assistant application.
