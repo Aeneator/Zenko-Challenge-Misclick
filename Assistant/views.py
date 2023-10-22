@@ -13,6 +13,6 @@ def update_data(request):
 
 
 def main_page(request):
-    gpt_funcs.chat_logs[gpt_funcs.get_client_ip(request)] = []
+    #gpt_funcs.chat_logs[gpt_funcs.get_client_ip(request)] = []
     template = loader.get_template('main_page.html')
     return HttpResponse(template.render())

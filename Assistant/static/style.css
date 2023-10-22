@@ -180,6 +180,10 @@ body
   background: none;
 }
 
+.leaflet-marker-icon{
+  width: 5px;
+  height: 7px;
+}
 
 .chatbox .incoming p span:after {
   content: "";
