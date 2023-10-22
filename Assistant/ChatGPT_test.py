@@ -69,10 +69,7 @@ while True:
                 if question.find("ticket") != -1:
                     Information += ' ,'  + ' \"' + faq_list_answers[q_id] + '\"'
         elif tag_response == "vital location":
-            for question in faq_list_questions:
-                q_id += 1
-                if question.find("location") != -1:
-                    Information += ' ,' + ' \"' + faq_list_answers[q_id] + '\"'
+            q_id = 0
         elif tag_response == "transport":
             q_id = 0
         elif tag_response == "food":
@@ -88,10 +85,7 @@ while True:
                 if question.find("program") != -1:
                     Information += ' ,'  + ' \"' + faq_list_answers[q_id] + '\"'
         elif tag_response == "beverage":
-            for question in faq_list_questions:
-                q_id += 1
-                if question.find("beverage") != -1:
-                    Information += ' ,'  + ' \"' + faq_list_answers[q_id] + '\"'
+            q_id = 0
         elif tag_response == "urgency":
             for question in faq_list_questions:
                 q_id += 1
