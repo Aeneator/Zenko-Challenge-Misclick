@@ -35,7 +35,16 @@ def get_stand_data():
 def get_location_lists():
     json_file = open("DataFiles/stand_data.json", "r")
     stand_list = json.loads(json_file.read())['stand_list']
-    beverages = foods = urgency = stages = toilets = buses = trains = recycle = streets = other = []
+    beverages = []
+    foods = []
+    urgency = []
+    stages = []
+    toilets = []
+    buses = []
+    trains = []
+    recycle = []
+    streets = []
+    other = []
     for stand in stand_list:
         ok = False
         if 'details' in stand['properties']:
@@ -75,7 +84,8 @@ def get_location_lists():
 
 
 def get_pins(loc_list):
-    return [loc['properties']['centerpoint'].split(', ') for loc in loc_list]
+    return [{"coordinates": [loc['properties']['centerpoint'].split(', ')[1], loc['properties']['centerpoint'].split(', ')[0]],
+             "popupText": loc_list.index(loc)} for loc in loc_list]
 
 
 # def gpt_test(prompt_question):

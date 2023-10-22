@@ -5,46 +5,37 @@ const chatbox = document.querySelector(".chatbox")
 let userMessage;
 
 function addMapWithMarkersToChatbox(markerData) {
-  // Create a chat message item with the map element
-  const mapMessage = createChatLi("", "incoming"); // Empty message, you can customize this
-  const mapContainer = document.createElement("div");
-  mapContainer.id = "map";
-  mapContainer.classList.add("small-map");
-  mapMessage.appendChild(mapContainer); // Append the map container to the chat message
-  chatbox.appendChild(mapMessage); // Append the chat message to the chatbox
-
-  // Initialize the map
-  const map = L.map(mapContainer, {
+    // Create a chat message item with the map element
+    const mapMessage = createChatLi("", "incoming"); // Empty message, you can customize this
+    const mapContainer = document.createElement("div");
+    mapContainer.id = "map";
+    mapContainer.classList.add("small-map");
+    mapMessage.appendChild(mapContainer); // Append the map container to the chat message
+    chatbox.appendChild(mapMessage); // Append the chat message to the chatbox
+    coordsX = 0;
+    coordsY = 0;
+    markerData.forEach(function (data) {
+       coordsX += parseFloat(data.coordinates[0]);
+       coordsY += parseFloat(data.coordinates[1]);
+    });
+    coordsX /= markerData.length;
+    coordsY /= markerData.length;
+    // Initialize the map
+    const map = L.map(mapContainer, {
     zoomControl: false,
-  }).setView([46.9926, 6.9285], 13);
+    }).setView([coordsX, coordsY], 15);
 
-  // Add a tile layer from OpenStreetMap
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Add a tile layer from OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+    }).addTo(map);
 
-  // Add markers to the map
-  markerData.forEach(function (data) {
+    // Add markers to the map
+    markerData.forEach(function (data) {
     L.marker(data.coordinates).addTo(map).bindPopup(data.popupText);
-  });
+    });
 }
 
-// Define the marker data
-var markerData = [
-  {
-      coordinates: [46.9916, 6.9313],
-      popupText: "Marker 1"
-  },
-  {
-      coordinates: [51.5, -0.09],
-      popupText: "Marker 2"
-  },
-  {
-      coordinates: [51.49, -0.1],
-      popupText: "Marker 3"
-  }
-  // Add more marker data as needed
-];
 
 function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -62,6 +53,9 @@ function updatePage(inputValue) {
         success: function(data) {
             const ulItem = document.querySelector(".chatbox");
             ulItem.lastElementChild.lastElementChild.textContent = data.message;
+            if (data.markers) {
+              addMapWithMarkersToChatbox(data.markers);
+            }
             document.querySelector(".chat-input textarea").readOnly = false;
         }
     });
@@ -97,7 +91,7 @@ chatInput.addEventListener("input", handleChatInput);
 const handleChat = () => {
   userMessage = chatInput.value.trim();
   if(!userMessage) return;
-//    updatePage(userMessage);
+   updatePage(userMessage);
     document.querySelector(".chat-input textarea").readOnly = true;
     chatbox.appendChild(createChatLi(userMessage, "outgoing"));
 
@@ -114,11 +108,6 @@ const handleChat = () => {
     dotsSpan.style.animation = "thinking-dots 1.5s infinite"; // Restart the animation
   }, 600); // Adjust the timing as needed
         document.querySelector(".chat-input textarea").value = "";
-    setTimeout(() => {
-    if (markerData) {
-      addMapWithMarkersToChatbox(markerData);
-    }
-  },602);
 }
 
 sendChatBtn.addEventListener("click", handleChat);
