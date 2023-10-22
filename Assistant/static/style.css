@@ -19,8 +19,12 @@
   border-radius: 15px 15px 15px 0;
   margin-top: 20px;
   cursor: pointer;
+  transition: transform 0.3s;
 }
-
+.small-map:hover {
+  transform: scale(1.5);
+  border-radius: 15px;
+}
 /* Style the main scrollbar track (the background) */
 ::-webkit-scrollbar {
   width: 12px; /* Adjust the width as needed */
