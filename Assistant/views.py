@@ -5,9 +5,10 @@ from . import gpt_funcs
 
 
 def update_data(request):
-    response = gpt_funcs.ask_question_topic(request.GET.get('text', None), gpt_funcs.get_client_ip(request))
+    response, markers_list = gpt_funcs.ask_question_topic(request.GET.get('text', None), gpt_funcs.get_client_ip(request))
 
-    data = {"message": response}
+    data = {"message": response,
+            "markers": markers_list}
     return JsonResponse(data)
 
 

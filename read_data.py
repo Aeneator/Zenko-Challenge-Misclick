@@ -4,6 +4,7 @@ import csv
 
 openai.api_key = open("API_KEY.txt", 'r').read()
 
+
 def get_stand_data():
     shops_list = []
     id_list = []

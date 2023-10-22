@@ -1,4 +1,5 @@
 import openai
+import read_data
 
 
 chat_logs = {}
@@ -25,4 +26,4 @@ def ask_question_topic(question, ip):
     assistant_response = response['choices'][0]['message']['content']
     chat_logs[ip].append({"role": "assistant", "content": assistant_response.strip("\n").strip()})
 
-    return assistant_response
+    return assistant_response, read_data.get_pins(read_data.get_location_lists()[3])
