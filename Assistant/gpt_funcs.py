@@ -16,8 +16,7 @@ def get_client_ip(request):
 def ask_question_topic(question, ip):
     openai.api_key = open("API_KEY.txt", 'r').read()
 
-    #base_string = "You are assisting with a festival and there are 10 categories: tickets, vital location, transport, food, music, program, beverage, urgency, history and other. If a question is not festival related it is considered other. In which category does this question fit (and only name exactly the category): "
-    base_string = "in 20 words or less "
+    base_string = "You are assisting with a festival and there are 10 categories: tickets, vital location, transport, food, music, program, beverage, urgency, history and other. If a question is not festival related it is considered other. In which category does this question fit (and only name exactly the category): "
     chat_logs[ip].append({"role": "user", "content": base_string + question})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
