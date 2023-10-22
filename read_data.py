@@ -95,14 +95,14 @@ def get_route_info():
         for row in csvfile:
             if routes_info[-1] is '\"':
                 routes_info += ', \"'
-            routes_info += row + ('\"' if routes_info[-1] is not ' ' else '')
+            routes_info += row.__str__() + ('\"' if routes_info[-1] is not ' ' else '')
     routes_info += '. The following information is regarding closed routes, each of them encapsulated between \"\", and follow this structure '
     with open('DataFiles/Modified Routes.csv', newline='') as file:
         csvfile = csv.reader(file, delimiter=',', quotechar='|')
         for row in csvfile:
             if routes_info[-1] is '\"':
                 routes_info += ', \"'
-            routes_info += row + ('\"' if routes_info[-1] is not ' ' else '')
+            routes_info += row.__str__() + ('\"' if routes_info[-1] is not ' ' else '')
 
     return routes_info
 
@@ -114,6 +114,6 @@ def get_recycle_info():
         for row in csvfile:
             if recycle_info[-1] is '\"':
                 recycle_info += ', \"'
-            recycle_info += row + ('\"' if recycle_info[-1] is not ' ' else '')
+            recycle_info += row.__str__() + ('\"' if recycle_info[-1] is not ' ' else '')
 
     return recycle_info

@@ -15,13 +15,13 @@ def get_client_ip(request):
     return ip
 
 
-def answer(question, ip):
+def answer(prompt, ip):
     openai.api_key = open("API_KEY.txt", 'r').read()
     df = pd.read_csv("DataFiles/FAQ.csv")
     list_of_questions = ""
 
     faq_list_questions = df["Questions"].tolist()
-    faq_list_answers = df["Answers"].tolist()[:-1]
+    faq_list_answers = df["Answers"].tolist()
 
     q_id = 0
     for question in faq_list_questions:
@@ -31,17 +31,18 @@ def answer(question, ip):
     faqTestResult = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user",
-                   "content": "With the context that you are a festival assistant that has to answer questions. You have the following question from a festival participant:\"" + question + "\". Is the given question kind of similar in meaning has the same keywords, format or answer to any question in the following list of frequently asked questions:" + list_of_questions + "? If you can find a similar question return just YES and the number before the most similar question, example: 'YES,number', don't change the format: 'YES,number' and don't add anything more. If you can't find a question similar enough return just NO."}]
+                   "content": "With the context that you are a festival assistant that has to answer questions. You have the following question from a festival participant:\"" + prompt + "\". Is the given question kind of similar in meaning, format or answer to any question in the following list of frequently asked questions:" + list_of_questions + "? If you can find a similar question return just YES and the number before the most similar question, example: 'YES,number', don't change the format: 'YES,number' and don't add anything more. If you can't find a question similar enough return just NO."}]
     )
 
     faq_content = faqTestResult['choices'][0]['message']['content']
-
     if faqTestResult['choices'][0]['message']['content'].lower().find("yes") != -1:
         AI_personality = "You are an AI Customer Relations, your role is to be the Central point of interaction with festival goers, your objectives are: Provide real-time information and Improve customer experience. "
         Task = "Use the information \"" + faq_list_answers[int(faq_content.split(',')[1].strip()) - 2] + "\""
         Limit = "don't change the sentence too much, but the message shouldn't exceed 300 characters."
 
-        chat_logs[ip].append({"role": "user", "content": AI_personality + Task + " to answer: \"" + question + "\"." + Limit})
+        print(faq_list_answers[int(faq_content.split(',')[1].strip()) - 2])
+
+        chat_logs[ip].append({"role": "user", "content": AI_personality + Task + " to answer: \"" + prompt + "\"." + Limit})
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=chat_logs[ip]
@@ -58,7 +59,7 @@ def answer(question, ip):
         base_string = "You are assisting with a festival and there are 10 categories: tickets, vital location, transport, food, music, program, beverage, urgency, history and other. If a question is not festival related it is considered other. In which category does this question fit (and only name exactly the category): "
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": base_string + question}]
+            messages=[{"role": "user", "content": base_string + prompt}]
         )
         tag_response = response['choices'][0]['message']['content'].lower()
 
@@ -128,7 +129,7 @@ def answer(question, ip):
 
         Information += "\""
 
-        chat_logs[ip].append({"role": "user", "content": AI_personality + Limit + Information + question})
+        chat_logs[ip].append({"role": "user", "content": AI_personality + Limit + Information + prompt})
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=chat_logs[ip]
