@@ -1,6 +1,8 @@
 import json
-import PyPDF2
+import openai
+import csv
 
+openai.api_key = open("API_KEY.txt", 'r').read()
 
 def get_stand_data():
     shops_list = []
@@ -29,4 +31,79 @@ def get_stand_data():
         outfile.write(json_object)
 
 
-get_stand_data()
+def get_location_lists():
+    json_file = open("DataFiles/stand_data.json", "r")
+    stand_list = json.loads(json_file.read())['stand_list']
+    beverages = foods = urgency = stages = toilets = buses = trains = recycle = streets = other = []
+    for stand in stand_list:
+        ok = False
+        if 'details' in stand['properties']:
+            if stand['properties']['details']['food_types'] is not None:
+                foods.append(stand)
+                ok = True
+            if stand['properties']['details']['drink_categories'] is not None:
+                beverages.append(stand)
+                ok = True
+        if 'eau' in stand['properties']['numero']:
+            beverages.append(stand)
+            ok = True
+        if 'GSN' in stand['properties']['numero']:
+            urgency.append(stand)
+            ok = True
+        if 'voirie' in stand['properties']['numero']:
+            streets.append(stand)
+            ok = True
+        if 'TransN' in stand['properties']['numero']:
+            trains.append(stand)
+            ok = True
+        if 'scÃ¨ne' in stand['properties']['numero']:
+            stages.append(stand)
+            ok = True
+        if 'camion' in stand['properties']['numero']:
+            buses.append(stand)
+            ok = True
+        if 'WC' in stand['properties']['numero']:
+            toilets.append(stand)
+            ok = True
+        if 'Centre tri' in stand['properties']['numero']:
+            recycle.append(stand)
+            ok = True
+        if ok is False:
+            other.append(stand)
+    return beverages, foods, urgency, stages, toilets, buses, trains, recycle, streets, other
+
+
+def get_pins(loc_list):
+    return [loc['properties']['centerpoint'].split(', ') for loc in loc_list]
+
+
+# def gpt_test(prompt_question):
+#     openai.api_key = open("API_KEY.txt", 'r').read()
+#     questions = '\"'
+#     answers = []
+#     with open('DataFiles/FAQ.csv', newline='') as csvfile:
+#         csv_reader = csv.reader(csvfile)
+#         for row in csv_reader:
+#             questions += row[0] + '\", '
+#             answers.append(row[1])
+#     questions = questions[:-3] + ';'
+#     prompt = f"You are a festival assistant for the FDV festival and you are given this question: \"{prompt_question}\"; give me the question number you are most confident is similar in topic to the previous question among the next ones and a confidence level from 0 to 100 under this format: \"confidence=X, answer_number=Y\" : {questions}."
+#
+#     chat_logs = []
+#     chat_logs.append({"role": "user", "content": prompt})
+#     response = openai.ChatCompletion.create(
+#         model="gpt-3.5-turbo",
+#         messages=chat_logs
+#     )
+#     assistant_response = response['choices'][0]['message']['content']
+#     chat_logs.append({"role": "assistant", "content": assistant_response.strip("\n").strip()})
+#
+#     question_number = int(assistant_response.split(':')[0].split(", ")[1].split('=')[1])
+#     prompt = f"Now answer the following question in under 100 words in this question's language: \"{prompt_question}\" using this information: \n{answers[question_number - 1]}\""
+#     chat_logs.append({"role": "user", "content": prompt})
+#     response = openai.ChatCompletion.create(
+#         model="gpt-3.5-turbo",
+#         messages=chat_logs
+#     )
+#     return response['choices'][0]['message']['content']
+
