@@ -22,7 +22,7 @@ while True:
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",#If it is, return exactly 'YES' and 'the number of the question it's most similar to', else return just NO."
-        messages=[{"role": "user", "content": "With the context that you are a festival assistant that has to answer questions. You have the following question from a festival participant:\"" + user_message + "\". Is the given question similar to any question in the following list of frequently asked questions:" + list_of_questions + "? If you can find a similar question return just 'YES' and the number before the most similar question. If you can't find a question similar enough return just NO." }]
+        messages=[{"role": "user", "content": "With the context that you are a festival assistant that has to answer questions. You have the following question from a festival participant:\"" + user_message + "\". Is the given question similar to any question in the following list of frequently asked questions:" + list_of_questions + "? If you can find a similar question return just YES and the number before the most similar question, example: 'YES,number'. If you can't find a question similar enough return just NO." }]
     )
     print(response['choices'][0]['message']['content'])
 
