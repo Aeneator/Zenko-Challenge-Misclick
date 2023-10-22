@@ -88,33 +88,32 @@ def get_pins(loc_list):
              "popupText": loc_list.index(loc)} for loc in loc_list]
 
 
-# def gpt_test(prompt_question):
-#     openai.api_key = open("API_KEY.txt", 'r').read()
-#     questions = '\"'
-#     answers = []
-#     with open('DataFiles/FAQ.csv', newline='') as csvfile:
-#         csv_reader = csv.reader(csvfile)
-#         for row in csv_reader:
-#             questions += row[0] + '\", '
-#             answers.append(row[1])
-#     questions = questions[:-3] + ';'
-#     prompt = f"You are a festival assistant for the FDV festival and you are given this question: \"{prompt_question}\"; give me the question number you are most confident is similar in topic to the previous question among the next ones and a confidence level from 0 to 100 under this format: \"confidence=X, answer_number=Y\" : {questions}."
-#
-#     chat_logs = []
-#     chat_logs.append({"role": "user", "content": prompt})
-#     response = openai.ChatCompletion.create(
-#         model="gpt-3.5-turbo",
-#         messages=chat_logs
-#     )
-#     assistant_response = response['choices'][0]['message']['content']
-#     chat_logs.append({"role": "assistant", "content": assistant_response.strip("\n").strip()})
-#
-#     question_number = int(assistant_response.split(':')[0].split(", ")[1].split('=')[1])
-#     prompt = f"Now answer the following question in under 100 words in this question's language: \"{prompt_question}\" using this information: \n{answers[question_number - 1]}\""
-#     chat_logs.append({"role": "user", "content": prompt})
-#     response = openai.ChatCompletion.create(
-#         model="gpt-3.5-turbo",
-#         messages=chat_logs
-#     )
-#     return response['choices'][0]['message']['content']
+def get_route_info():
+    routes_info = "Routes are structured as follows: each route can be found encapsulated between \"\", and follow this structure "
+    with open('DataFiles/Routes.csv', newline='') as file:
+        csvfile = csv.reader(file, delimiter=',', quotechar='|')
+        for row in csvfile:
+            if routes_info[-1] is '\"':
+                routes_info += ', \"'
+            routes_info += row + ('\"' if routes_info[-1] is not ' ' else '')
+    routes_info += '. The following information is regarding closed routes, each of them encapsulated between \"\", and follow this structure '
+    with open('DataFiles/Modified Routes.csv', newline='') as file:
+        csvfile = csv.reader(file, delimiter=',', quotechar='|')
+        for row in csvfile:
+            if routes_info[-1] is '\"':
+                routes_info += ', \"'
+            routes_info += row + ('\"' if routes_info[-1] is not ' ' else '')
 
+    return routes_info
+
+
+def get_recycle_info():
+    recycle_info = "Recycling rules are split as follows: each of them encapsulated between \"\", and follow this structure "
+    with open('DataFiles/Recycle.csv', newline='') as file:
+        csvfile = csv.reader(file, delimiter=',', quotechar='|')
+        for row in csvfile:
+            if recycle_info[-1] is '\"':
+                recycle_info += ', \"'
+            recycle_info += row + ('\"' if recycle_info[-1] is not ' ' else '')
+
+    return recycle_info
